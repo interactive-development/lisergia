@@ -39,8 +39,5 @@ yarn-error.log*
 # Rollup
 .rollup.cache
 
-# JSON Content
-content.json
-
 # Stats
 stats.html

@@ -10,14 +10,7 @@
   "compatibility_date": "2026-08-29",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./build",
-    "run_worker_first": ["/signup"]
-  },
-  "vars": {
-    "SANITY_API": "2023-05-03",
-    "SANITY_DATABASE": "production",
-    "SANITY_PROJECT": "lqn1inyo",
-    "SANITY_STUDIO_URL": "https://studio.lisergia.dev"
+    "directory": "./build"
   },
   "routes": [
     {

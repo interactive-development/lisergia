@@ -1,22 +1,14 @@
-import { stegaClean } from '@sanity/client/stega'
-
-import { getAsset } from '../helpers'
+import { site, type View } from '../../views'
 import { bundle, fonts } from '../manifest'
-import type { PageData } from '../types'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const vitePort = process.env.VITE_PORT ?? process.env.BROWSERSYNC_PORT ?? '5173'
 const viteOrigin = process.env.VITE_ORIGIN ?? `http://localhost:${vitePort}`
 const assetOrigin = isDev ? viteOrigin : ''
 
-interface PageHeadProps {
-  data: PageData
-}
-
-export default function PageHead({ data }: PageHeadProps) {
-  const { social } = data
-  const cleanSocial = stegaClean(social)
-  const socialImage = cleanSocial?.image ? getAsset(cleanSocial.image) : null
+export default function PageHead({ view }: { view: View }) {
+  const title = view.slug === 'home' ? site.name : `${site.name} | ${view.label}`
+  const image = `${site.url}/open-graph.png`
 
   return (
     <>
@@ -24,37 +16,23 @@ export default function PageHead({ data }: PageHeadProps) {
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui" />
 
-      <title>{cleanSocial?.title}</title>
+      <title>{title}</title>
 
-      <meta name="description" content={cleanSocial?.description} />
+      <meta name="description" content={site.description} />
 
       <meta property="og:type" content="website" />
       <meta name="twitter:card" content="summary_large_image" />
 
-      {cleanSocial?.title && (
-        <>
-          <meta property="og:title" content={cleanSocial.title} />
-          <meta name="twitter:title" content={cleanSocial.title} />
-        </>
-      )}
+      <meta property="og:title" content={title} />
+      <meta name="twitter:title" content={title} />
 
-      {socialImage && (
-        <>
-          <meta property="og:image" content={socialImage.url} />
-          <meta name="twitter:image" content={socialImage.url} />
-        </>
-      )}
+      <meta property="og:image" content={image} />
+      <meta name="twitter:image" content={image} />
 
-      {cleanSocial?.description && (
-        <>
-          <meta property="og:description" content={cleanSocial.description} />
-          <meta name="twitter:description" content={cleanSocial.description} />
-        </>
-      )}
+      <meta property="og:description" content={site.description} />
+      <meta name="twitter:description" content={site.description} />
 
       {/* Stylesheets */}
-      <link rel="preconnect" href="https://cdn.sanity.io" />
-
       {fonts.map((font) => (
         <link
           as="font"
@@ -73,7 +51,7 @@ export default function PageHead({ data }: PageHeadProps) {
       )}
 
       {/* Favicons */}
-      <meta name="apple-mobile-web-app-title" content={cleanSocial?.title} />
+      <meta name="apple-mobile-web-app-title" content={site.name} />
       <link rel="shortcut icon" href="/favicon/favicon.ico" />
       <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
       <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />

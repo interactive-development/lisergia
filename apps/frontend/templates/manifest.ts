@@ -55,7 +55,7 @@ export const bundle = {
 
 // Self-hosted fonts from `src/styles/base/fonts.scss`. Otherwise they are only
 // discovered after the stylesheet downloads and parses.
-export const fonts = ['/fonts/neue-montreal.woff2', '/fonts/editorial-new.woff2', '/fonts/anonymous-pro.woff2']
+export const fonts = ['/fonts/inter.woff2']
 
 // Also sent as a `Link` header, so the browser (and Cloudflare Early Hints, when
 // enabled on the zone) can start fetching them before the HTML is parsed.

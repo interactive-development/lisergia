@@ -9,7 +9,7 @@ const app = new Elysia({
   adapter: CloudflareAdapter,
 })
   .onError(({ code, request }) => {
-    if (code === 'NOT_FOUND') return page('not-found', request, 404)
+    if (code === 'NOT_FOUND') return page('not-found', request)
   })
   .use(router)
   .compile()

@@ -1,5 +1,6 @@
 html {
-  background: var(--color-black);
+  background: var(--color-cod-gray);
+  color: var(--color-pampas);
   font-size: calc(100vw / 1440 * 10);
 
   @include media('<phone') {
@@ -8,7 +9,7 @@ html {
 }
 
 body {
-  font: 1.6rem/1.3 $font-neue-montreal;
+  font: 1.6rem/1.3 $font-inter;
 
   @include media('>=desktop') {
     font-size: 16px;
@@ -22,43 +23,11 @@ body {
 }
 
 .app {
-  // Shrinks the visible area with `clip-path` and `transform` instead of
-  // animating `top` and `height`, so opening the menu never triggers layout.
-  clip-path: inset(0 round 0);
-  transition:
-    background 1s ease,
-    clip-path 1s ease,
-    transform 1s ease;
-  z-index: z('box');
-
-  .navigation--open & {
-    background: var(--color-cod-gray);
-    clip-path: inset(0 0 calc(7.5rem + 2.5rem) round 1rem);
-    pointer-events: none;
-    transform: translate(62.5rem, 7.5rem);
-  }
-
-  @include media('>=desktop') {
-    .navigation--open & {
-      clip-path: inset(0 0 calc(75px + 25px) round 1rem);
-      transform: translate(625px, 75px);
-    }
-  }
+  z-index: z('app');
 }
 
-[data-paragraph] {
-  div {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: bottom;
-  }
-}
-
-img {
-  opacity: 0;
-  transition: opacity 1s ease;
-
-  &.loaded {
-    opacity: 1;
-  }
+.page {
+  height: 100%;
+  overflow: auto;
+  position: relative;
 }

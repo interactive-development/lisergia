@@ -54,3 +54,14 @@ Run `bun run deploy:web` from the repository root to build and deploy the Elysia
 - `@lisergia/managers`: Built-in managers that handle various application behaviors in Lisergia.
 - `@lisergia/styles`: Shared styles and SCSS utilities used across projects.
 - `@lisergia/utilities`: Reusable utility functions that support common development needs.
+
+## Environment variables
+
+Secrets live in Infisical (project `lisergia`, linked via `.infisical.json`). Install the CLI with `brew install infisical`, run `infisical login`, then pull them:
+
+```sh
+infisical export --env=dev > .env
+infisical export --env=dev --path=/apps/frontend > apps/frontend/.env
+```
+
+Or inject them without writing files: `infisical run --env=dev -- <command>`.

@@ -1,71 +1,57 @@
-import { stegaClean } from '@sanity/client/stega'
-
-import Footer from '../layout/Footer'
-import Menu from '../layout/Menu'
+import { type View, views } from '../../views'
 import Navigation from '../layout/Navigation'
-import Sections from '../sections/Sections'
 import PageHead from '../shared/PageHead'
 import Scripts from '../shared/Scripts'
-import type { PageData } from '../types'
 
 interface PageProps {
-  data: PageData
+  posthog?: {
+    host: string
+    key: string
+  }
+  view: View
 }
 
-export default function Page({ data }: PageProps) {
-  const {
-    categories,
-    content,
-    footer,
-    isPhone,
-    isPreview,
-    isTablet,
-    label,
-    menu,
-    posthog,
-    price,
-    settings,
-    slug,
-    social,
-    title,
-  } = data
-
-  const deviceClass = isPhone ? 'phone' : isTablet ? 'tablet' : 'desktop'
+export default function Page({ posthog, view }: PageProps) {
+  const index = views.indexOf(view)
+  const number = index === -1 ? '404' : String(index + 1).padStart(2, '0')
 
   return (
-    <html
-      className={deviceClass}
-      data-sanity-preview={isPreview ? 'true' : undefined}
-      data-template="page"
-      id={stegaClean(slug?.current)}
-      lang="en"
-    >
+    <html data-template="page" id={view.slug} lang="en">
       <head>
-        <PageHead data={data} />
+        <PageHead view={view} />
       </head>
       <body>
-        <Menu menu={menu} settings={settings} />
-        <Navigation />
+        <Navigation view={view} />
 
         <div className="app">
           <div className="page">
             <div className="page__wrapper">
-              <div className="page__content">
-                {content && (
-                  <Sections
-                    content={content}
-                    categories={categories}
-                    label={label}
-                    title={title}
-                    price={price}
-                    slug={slug?.current}
-                  />
+              <main className="view">
+                <p className="view__label">
+                  [ {number} ] {view.label}
+                </p>
+
+                <h1 className="view__title">{view.title}</h1>
+
+                <p className="view__description">{view.description}</p>
+
+                {view.items && (
+                  <ul className="view__list">
+                    {view.items.map((item) => (
+                      <li className="view__item" key={item.title}>
+                        <span className="view__item__title">{item.title}</span>
+                        {item.url ? (
+                          <a className="view__item__text" href={item.url}>
+                            {item.text}
+                          </a>
+                        ) : (
+                          <span className="view__item__text">{item.text}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
                 )}
-              </div>
-
-              <div className="page__footer"></div>
-
-              <Footer footer={footer} settings={settings} social={social} />
+              </main>
             </div>
           </div>
         </div>
